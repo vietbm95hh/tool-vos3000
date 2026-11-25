@@ -13,7 +13,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("Vos3000Agent")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("ReleasePortable")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+b33a773cf80a724559d392e25517a1f22067b187")]
 [assembly: System.Reflection.AssemblyProductAttribute("VOS3000 Agent Custom")]
 [assembly: System.Reflection.AssemblyTitleAttribute("VOS3000 Agent Custom (C#)")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

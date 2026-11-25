@@ -844,8 +844,10 @@ async Task RunPentest()
     {
         if (s.Connect())
         {
-            var resp = s.SendPacket(pk[ix.Hello], 1500);
-            bool hasGreet = resp.Any(r => VosSession.ContainsAscii(r, "MBX3000"));
+            var resp = s.SendPacket(pk[ix.Hello], 3000);
+            // greeting cua server la TEXT, khong phai packet -> nam trong LastRawChunks
+            bool hasGreet = resp.Any(r => VosSession.ContainsAscii(r, "MBX3000"))
+                         || s.LastRawChunks.Any(r => VosSession.ContainsAscii(r, "MBX3000"));
             Rec("PB3", hasGreet ? "PASS" : "FAIL", "Hello dung protocol -> greeting",
                 hasGreet ? "server ban MBX3000 greeting" : "khong thay 'MBX3000' in greeting (resp=" + resp.Count + " chunk)");
         }

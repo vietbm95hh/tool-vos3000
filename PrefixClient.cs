@@ -145,8 +145,7 @@ namespace Vos3000Agent
             }
 
             var filter = RoutingCodec.BroadcastFilter(RouteGetPacket) ?? RouteGetPacket;
-            var objs = s.SendPacket(filter, 2500);
-            foreach (var _ in s.ReadAvailable(1200)) { }   // gói bổ sung (danh sách dài, server push tiếp)
+            var objs = ReadBulk(s, filter, 8000, "call-in");
 
             var seen = new HashSet<long>();
             foreach (var o in RoutingCodec.ParseAll(objs, m => _log?.Invoke(m)))
@@ -164,21 +163,10 @@ namespace Vos3000Agent
                 });
             }
             res.Sort((a, b) => a.Id.CompareTo(b.Id));
-            _log?.Invoke($"  Đọc được {res.Count} gateway routing (call-in) từ VOS.");
-            foreach (var e in res)
-            {
-                int n = NumberLockUtil.SplitPlain(e.Prefix).Count;
-                string prefixNote = e.Prefix == null
-                    ? "field 'prefix' KHÔNG tồn tại"
-                    : e.Prefix.Length == 0
-                        ? "field 'prefix' rỗng"
-                        : $"'{Short(e.Prefix)}'";
-                _log?.Invoke($"    • routing#{e.Id} {e.Display}" +
-                             (string.IsNullOrEmpty(e.Name) ? "" : $" ({e.Name})") +
-                             $": {n} số" + (n == 0 ? $" — {prefixNote}" : ""));
-                if (n == 0)
-                    _log?.Invoke("        field chuỗi: " + RoutingCodec.DescribeStringFields(e.Obj));
-            }
+            int totalNums = res.Sum(e => NumberLockUtil.SplitPlain(e.Prefix).Count);
+            _log?.Invoke($"  Đọc được {res.Count} gateway routing (call-in), tổng {totalNums} số.");
+            if (res.Count == 0)
+                _log?.Invoke("  !! Không có gateway routing nào - kiểm tra filter/tài khoản VOS.");
             return res;
         }
 
@@ -191,30 +179,31 @@ namespace Vos3000Agent
             if (s == null || items == null || items.Count == 0) return;
             if (RouteSetPacket == null)
             {
-                _log?.Invoke("!! Không có template SET GatewayRouting — bỏ qua ghi call-in vào VOS.");
+                _log?.Invoke("!! Không có template SET GatewayRouting - bỏ qua ghi call-in vào VOS.");
                 return;
             }
 
-            int idx = 0;
+            int sent = 0, failed = 0, noResp = 0;
             foreach (var (entry, newPrefix) in items)
             {
-                idx++;
                 var setPkt = RoutingCodec.BuildSetPacket(RouteSetPacket, entry.Obj, newPrefix, m => _log?.Invoke(m));
                 if (setPkt == null)
                 {
-                    _log?.Invoke($"!! [{idx}/{items.Count}] routing#{entry.Id} ({entry.Account}): không dựng được packet SET.");
+                    failed++;
+                    _log?.Invoke($"!! routing#{entry.Id} ({entry.Display}): không dựng được packet SET.");
                     continue;
                 }
 
-                _log?.Invoke($"  SET routing [{idx}/{items.Count}] {entry.Display} (id={entry.Id}): " +
-                             $"{(entry.Prefix ?? "").Length} -> {newPrefix.Length} ký tự");
                 var resp = s.SendPacket(setPkt, 1200);
-                if (resp.Count == 0) _log?.Invoke("    (không nhận phản hồi SET ngay)");
+                if (resp.Count == 0) noResp++;
+                sent++;
                 System.Threading.Thread.Sleep(200);
                 foreach (var _ in s.ReadAvailable(400)) { }
             }
+            _log?.Invoke($"  Đã gửi SET {sent}/{items.Count} routing" +
+                         (failed > 0 ? $", lỗi {failed}" : "") +
+                         (noResp > 0 ? $", {noResp} không phản hồi ngay" : "") + ".");
         }
-
         private VosSession NewSession()
         {
             var s = new VosSession(Host, Port, m => _log("  " + m));
@@ -233,8 +222,41 @@ namespace Vos3000Agent
             if (!LoadSession()) return null;
             var s = NewSession();
             if (s == null) return null;
-            foreach (var _ in s.SendPacket(_pk[HelloIdx], 900)) { }
-            foreach (var _ in s.SendPacket(_pk[LoginIdx], 1200)) { }
+
+            s.SendPacket(_pk[HelloIdx], 3000);
+            var login = s.SendPacket(_pk[LoginIdx], 4000);
+
+            // Dang nhap that bai -> server thuong dong ket noi hoac khong tra loi.
+            if (!s.IsAlive)
+            {
+                _log?.Invoke("!! Dang nhap VOS that bai: server dong ket noi ngay sau login.");
+                _log?.Invoke("   Kiem tra User/Password VOS3000 (1202) o tab Cau hinh, roi bam 'Test login'.");
+                s.Dispose();
+                return null;
+            }
+
+            bool hasInfoUser = false, hasError = false;
+            foreach (var o in login)
+            {
+                if (VosSession.ContainsAscii(o, "InfoUser")) hasInfoUser = true;
+                if (VosSession.ContainsAscii(o, "RspError") || VosSession.ContainsAscii(o, "Exception")) hasError = true;
+            }
+
+            if (hasError)
+            {
+                _log?.Invoke("!! Server tra ve LOI khi login - kiem tra lai User/Password VOS3000 (1202).");
+                s.Dispose();
+                return null;
+            }
+
+            if (login.Count == 0 && s.LastByteCount == 0)
+            {
+                _log?.Invoke("!! Login khong co phan hoi - thu 'Test login' de kiem tra user/pass.");
+                s.Dispose();
+                return null;
+            }
+
+            _log?.Invoke($"Login OK{(hasInfoUser ? " (co InfoUser)" : "")} - {login.Count} object.");
             return s;
         }
 
@@ -402,8 +424,7 @@ namespace Vos3000Agent
         {
             var res = new List<MappingEntry>();
             if (s == null) return res;
-            var objs = s.SendPacket(BuildBroadcastFilter(), 2500);
-            foreach (var _ in s.ReadAvailable(1200)) { }   // gói bổ sung (danh sách dài, server push tiếp)
+            var objs = ReadBulk(s, BuildBroadcastFilter(), 8000, "mapping");
 
             foreach (var o in objs)
             {
@@ -433,14 +454,10 @@ namespace Vos3000Agent
                 uniq.Add(e);
             }
             uniq.Sort((a, b) => a.MappingId.CompareTo(b.MappingId));
-            _log?.Invoke($"  Đọc được {uniq.Count} mapping (account) từ server.");
-            foreach (var e in uniq)
-            {
-                int n = NumberLockUtil.Split(e.Prefix ?? "").Nums.Count;
-                _log?.Invoke($"    • mapping#{e.MappingId} {e.Display}" +
-                             (string.IsNullOrEmpty(e.CustomerName) ? "" : $" ({e.CustomerName})") +
-                             $": {n} số" + (n == 0 ? " — account không có danh sách số (bỏ qua)" : ""));
-            }
+            int totalNums = uniq.Sum(e => NumberLockUtil.Split(e.Prefix ?? "").Nums.Count);
+            _log?.Invoke($"  Đọc được {uniq.Count} mapping (account), tổng {totalNums} số.");
+            if (uniq.Count == 0)
+                _log?.Invoke("  !! Không có mapping nào - kiểm tra filter/tài khoản VOS.");
             return uniq;
         }
 
@@ -456,28 +473,28 @@ namespace Vos3000Agent
         {
             if (s == null || items == null || items.Count == 0) return;
 
-            int idx = 0;
+            int sent = 0, failed = 0, noResp = 0;
             foreach (var (entry, newPrefix) in items)
             {
-                idx++;
                 var value = GatewayMappingCodec.NormalizePrefixValue(newPrefix);
-
                 var setPkt = GatewayMappingCodec.BuildSetPacket(_pk[SetIdx], entry.Obj, value, m => _log?.Invoke(m));
                 if (setPkt == null)
                 {
-                    _log?.Invoke($"!! [{idx}/{items.Count}] {entry.Display}: không dựng được packet SET.");
+                    failed++;
+                    _log?.Invoke($"!! {entry.Display}: không dựng được packet SET.");
                     continue;
                 }
 
-                _log?.Invoke($"  SET [{idx}/{items.Count}] {entry.Display} (id={entry.MappingId}): " +
-                             $"'{(entry.Prefix ?? "").Length} ký tự' -> '{value.Length} ký tự'");
                 var resp = s.SendPacket(setPkt, 1200);
-                if (resp.Count == 0) _log?.Invoke("    (không nhận phản hồi SET ngay)");
+                if (resp.Count == 0) noResp++;
+                sent++;
                 System.Threading.Thread.Sleep(200);
                 foreach (var _ in s.ReadAvailable(400)) { }
             }
+            _log?.Invoke($"  Đã gửi SET {sent}/{items.Count} mapping" +
+                         (failed > 0 ? $", lỗi {failed}" : "") +
+                         (noResp > 0 ? $", {noResp} không phản hồi ngay" : "") + ".");
         }
-
         /// <summary>
         /// Áp CÙNG một tập số (khóa/mở) lên TẤT CẢ account customer:
         ///   - mỗi account giữ số riêng (số không có trong tập thì không đụng),
@@ -636,6 +653,38 @@ namespace Vos3000Agent
         }
 
         /// <summary>FilterGatewayMapping "lấy tất cả": agentAccount rỗng + customerAccount "*" + idSet rỗng.</summary>
+        /// <summary>
+        /// Doc 1 lan GET lon (tat ca account). Server tra response thanh NHIEU dot / nhieu frame:
+        /// doc cho den khi im lang va gom TAT CA frame (truoc day chi lay frame dau tien).
+        /// </summary>
+        private List<byte[]> ReadBulk(VosSession s, byte[] filter, int firstWaitMs, string label)
+        {
+            var all = new List<byte[]>();
+            long bytes = 0;
+            int frames = 0, bad = 0;
+
+            var part = s.SendPacket(filter, firstWaitMs);
+            all.AddRange(part);
+            bytes += s.LastByteCount; frames += s.LastFrameCount; bad += s.LastBadFrameCount;
+
+            // Server con day tiep theo dot (danh sach dai) - doc them cho den khi het.
+            for (int i = 0; i < 4; i++)
+            {
+                part = s.ReadAvailable(1200);
+                bytes += s.LastByteCount; frames += s.LastFrameCount; bad += s.LastBadFrameCount;
+                // con nua frame trong buffer thi van doc tiep (khong dung chi vi dot nay 0 object)
+                if (part.Count == 0 && s.PendingBytes == 0) break;
+                all.AddRange(part);
+            }
+
+            _log?.Invoke($"  {label}: nhan {bytes} byte, {frames} frame gzip, {bad} frame loi, {all.Count} object{(s.PendingBytes > 0 ? $", con {s.PendingBytes} byte chua du frame" : "")}.");
+            if (bad > 0)
+                _log?.Invoke("  !! Co frame gzip khong giai nen duoc - kiem tra ket noi / phien ban VOS.");
+            if (s.PendingBytes > 0)
+                _log?.Invoke("  !! Con du lieu chua du frame - server gui cham hoac response bi cat.");
+            return all;
+        }
+
         private byte[] BuildBroadcastFilter()
         {
             var tpl = _pk[GetIdx];

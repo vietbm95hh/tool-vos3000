@@ -179,12 +179,17 @@ namespace Replayer
             using var s = new VosSession(host, port, null);
             if (!s.Connect()) return (false, "Khong ket noi duoc " + host + ":" + port + " - " + s.LastError);
 
-            var greet = s.SendPacket(helloPacket, 1200);
-            if (greet.Count == 0)
+            // hello: server tra greeting dang TEXT (khong phai packet) -> dem byte nhan duoc
+            var greet = s.SendPacket(helloPacket, 3000);
+            if (greet.Count == 0 && s.LastByteCount == 0)
                 return (false, "Server khong tra loi hello (sai port / firewall / IP bi chan?).");
 
             var resp = s.SendPacket(loginPacket, settleMs);
-            if (resp.Count == 0)
+
+            if (!s.IsAlive)
+                return (false, "Server dong ket noi ngay sau login - user/pass sai, tai khoan bi khoa hoac IP bi chan.");
+
+            if (resp.Count == 0 && s.LastByteCount == 0)
                 return (false, "Server khong tra loi login (thuong do user/pass sai hoac bi chan IP).");
 
             if (Contains(resp, "Error") || Contains(resp, "error") || Contains(resp, "exception"))
@@ -192,6 +197,8 @@ namespace Replayer
 
             if (Contains(resp, "InfoUser")) return (true, "Login OK (server tra thong tin tai khoan).");
             if (Contains(resp, "RspSetInfo") || Contains(resp, "RspGetInfo")) return (true, "Login OK.");
+            if (resp.Count == 0)
+                return (true, "Login co phan hoi (" + s.LastByteCount + " byte, khong co object) - thu GET de chac chan.");
             return (true, "Login co phan hoi (" + resp.Count + " object).");
         }
 

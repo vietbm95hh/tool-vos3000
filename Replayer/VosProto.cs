@@ -1,4 +1,4 @@
-﻿
+
 using System.IO.Compression;
 using System.Text;
 
@@ -6,7 +6,7 @@ using System.Text;
 public class VosProto
 {
     public const int HeaderLen = 36;
-    static readonly byte[] Magic = { 0x00, 0x00, 0x03, 0xFC, 0xFF, 0xFF, 0xFC, 0x03 };
+    public static readonly byte[] Magic = { 0x00, 0x00, 0x03, 0xFC, 0xFF, 0xFF, 0xFC, 0x03 };
 
     public static bool HasMagic(byte[] b, int pos)
     {

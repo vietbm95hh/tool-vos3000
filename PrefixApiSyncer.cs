@@ -297,8 +297,6 @@ namespace Vos3000Agent
                     if (outcome.Changed)
                     {
                         outWrites.Add((e, outcome.Build(), accountId, account));
-                        _log?.Invoke(string.Format(Msg.Prefix.OutMergeLog, account, e.MappingId,
-                            outcome.Added, outcome.Locked, outcome.Opened, outcome.List.Count));
                     }
                 }
 
@@ -315,8 +313,6 @@ namespace Vos3000Agent
                     if (outcome.Changed)
                     {
                         inWrites.Add((r, outcome.Build(), r.CustomerId, r.Account));
-                        _log?.Invoke(string.Format(Msg.Prefix.InMergeLog, r.Account, r.Id,
-                            outcome.Added, outcome.Locked, outcome.Opened, outcome.List.Count));
                     }
                 }
 
@@ -618,7 +614,7 @@ namespace Vos3000Agent
                     row = dbById.Values.FirstOrDefault(x =>
                         string.Equals(x.Account, e.Account, StringComparison.OrdinalIgnoreCase));
 
-                _log?.Invoke($"    routing {e.Id} acc='{e.Account}': dbById={byId} customer={(row?.CustomerId ?? 0)}");
+
 
                 if (row != null)
                 {
@@ -651,10 +647,9 @@ namespace Vos3000Agent
                 res.Add((row, e.Prefix ?? ""));
             }
 
-            foreach (var kv in dbById)
-                if (!liveRoutings.Any(x => (int)x.Id == kv.Key))
-                    _log?.Invoke($"  (routing id={kv.Key} ({kv.Value.Account}) không có trên VOS — bỏ qua)");
-
+            int dbOnly = dbById.Count(kv => !liveRoutings.Any(x => (int)x.Id == kv.Key));
+            if (dbOnly > 0)
+                _log?.Invoke($"  ({dbOnly} routing có trong DB nhưng không có trên VOS - bỏ qua)");
             _log?.Invoke($"  IN: {res.Count} routing trên VOS (RAM).");
             return res;
         }
@@ -789,15 +784,12 @@ namespace Vos3000Agent
         private void LogGroupSummary(Dictionary<long, AccountNumberGroup> groups)
         {
             if (groups == null || groups.Count == 0) return;
-            _log?.Invoke(string.Format(Msg.Prefix.GroupSummary, groups.Count));
-            foreach (var g in groups.OrderBy(x => x.Key).Take(20))
-            {
-                _log?.Invoke(string.Format(Msg.Prefix.GroupLine,
-                    g.Key, string.IsNullOrEmpty(g.Value.Account) ? "?" : g.Value.Account,
-                    g.Value.InCount, g.Value.InLocked, g.Value.OutCount, g.Value.OutLocked));
-            }
+            long totalIn = groups.Values.Sum(g => (long)g.InCount);
+            long totalInLocked = groups.Values.Sum(g => (long)g.InLocked);
+            long totalOut = groups.Values.Sum(g => (long)g.OutCount);
+            long totalOutLocked = groups.Values.Sum(g => (long)g.OutLocked);
+            _log?.Invoke($"  Tổng: {groups.Count} account | IN {totalIn} số (khóa {totalInLocked}) | OUT {totalOut} số (khóa {totalOutLocked}).");
         }
-
         private void SaveGroups(PrefixSyncResult res)
         {
             try
