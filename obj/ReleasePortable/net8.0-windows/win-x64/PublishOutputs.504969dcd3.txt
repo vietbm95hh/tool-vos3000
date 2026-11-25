@@ -1,4 +1,0 @@
-C:\Users\PC\Documents\Default Project\publish\VosReplayer.runtimeconfig.json
-C:\Users\PC\Documents\Default Project\publish\Assets\logo.png
-C:\Users\PC\Documents\Default Project\publish\VosReplayer.pdb
-C:\Users\PC\Documents\Default Project\publish\Vos3000Agent.exe
