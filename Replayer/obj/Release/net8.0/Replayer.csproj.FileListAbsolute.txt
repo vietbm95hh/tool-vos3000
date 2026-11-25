@@ -1,0 +1,14 @@
+C:\Users\PC\Documents\Default Project\Vos3000AgentCSharp\Replayer\bin\Release\net8.0\VosReplayer.exe
+C:\Users\PC\Documents\Default Project\Vos3000AgentCSharp\Replayer\bin\Release\net8.0\VosReplayer.deps.json
+C:\Users\PC\Documents\Default Project\Vos3000AgentCSharp\Replayer\bin\Release\net8.0\VosReplayer.runtimeconfig.json
+C:\Users\PC\Documents\Default Project\Vos3000AgentCSharp\Replayer\bin\Release\net8.0\VosReplayer.dll
+C:\Users\PC\Documents\Default Project\Vos3000AgentCSharp\Replayer\bin\Release\net8.0\VosReplayer.pdb
+C:\Users\PC\Documents\Default Project\Vos3000AgentCSharp\Replayer\obj\Release\net8.0\Replayer.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\PC\Documents\Default Project\Vos3000AgentCSharp\Replayer\obj\Release\net8.0\Replayer.AssemblyInfoInputs.cache
+C:\Users\PC\Documents\Default Project\Vos3000AgentCSharp\Replayer\obj\Release\net8.0\Replayer.AssemblyInfo.cs
+C:\Users\PC\Documents\Default Project\Vos3000AgentCSharp\Replayer\obj\Release\net8.0\Replayer.csproj.CoreCompileInputs.cache
+C:\Users\PC\Documents\Default Project\Vos3000AgentCSharp\Replayer\obj\Release\net8.0\VosReplayer.dll
+C:\Users\PC\Documents\Default Project\Vos3000AgentCSharp\Replayer\obj\Release\net8.0\refint\VosReplayer.dll
+C:\Users\PC\Documents\Default Project\Vos3000AgentCSharp\Replayer\obj\Release\net8.0\VosReplayer.pdb
+C:\Users\PC\Documents\Default Project\Vos3000AgentCSharp\Replayer\obj\Release\net8.0\Replayer.genruntimeconfig.cache
+C:\Users\PC\Documents\Default Project\Vos3000AgentCSharp\Replayer\obj\Release\net8.0\ref\VosReplayer.dll

@@ -1,0 +1,79 @@
+C:\Users\PC\Documents\Default Project\Vos3000AgentCSharp\Replayer\obj\Debug\net8.0\Replayer.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\PC\Documents\Default Project\Vos3000AgentCSharp\Replayer\obj\Debug\net8.0\Replayer.AssemblyInfoInputs.cache
+C:\Users\PC\Documents\Default Project\Vos3000AgentCSharp\Replayer\obj\Debug\net8.0\Replayer.AssemblyInfo.cs
+C:\Users\PC\Documents\Default Project\Vos3000AgentCSharp\Replayer\obj\Debug\net8.0\Replayer.csproj.CoreCompileInputs.cache
+C:\Users\PC\Documents\Default Project\Vos3000AgentCSharp\Replayer\bin\Debug\net8.0\VosReplayer.exe
+C:\Users\PC\Documents\Default Project\Vos3000AgentCSharp\Replayer\bin\Debug\net8.0\VosReplayer.deps.json
+C:\Users\PC\Documents\Default Project\Vos3000AgentCSharp\Replayer\bin\Debug\net8.0\VosReplayer.runtimeconfig.json
+C:\Users\PC\Documents\Default Project\Vos3000AgentCSharp\Replayer\bin\Debug\net8.0\VosReplayer.dll
+C:\Users\PC\Documents\Default Project\Vos3000AgentCSharp\Replayer\bin\Debug\net8.0\VosReplayer.pdb
+C:\Users\PC\Documents\Default Project\Vos3000AgentCSharp\Replayer\obj\Debug\net8.0\VosReplayer.dll
+C:\Users\PC\Documents\Default Project\Vos3000AgentCSharp\Replayer\obj\Debug\net8.0\refint\VosReplayer.dll
+C:\Users\PC\Documents\Default Project\Vos3000AgentCSharp\Replayer\obj\Debug\net8.0\VosReplayer.pdb
+C:\Users\PC\Documents\Default Project\Vos3000AgentCSharp\Replayer\obj\Debug\net8.0\Replayer.genruntimeconfig.cache
+C:\Users\PC\Documents\Default Project\Vos3000AgentCSharp\Replayer\obj\Debug\net8.0\ref\VosReplayer.dll
+C:\Users\PC\Documents\Default Project\Vos3000AgentCSharp\Replayer\bin\checkbuild\VosReplayer.exe
+C:\Users\PC\Documents\Default Project\Vos3000AgentCSharp\Replayer\bin\checkbuild\VosReplayer.deps.json
+C:\Users\PC\Documents\Default Project\Vos3000AgentCSharp\Replayer\bin\checkbuild\VosReplayer.runtimeconfig.json
+C:\Users\PC\Documents\Default Project\Vos3000AgentCSharp\Replayer\bin\checkbuild\VosReplayer.dll
+C:\Users\PC\Documents\Default Project\Vos3000AgentCSharp\Replayer\bin\checkbuild\VosReplayer.pdb
+C:\Users\PC\Documents\Default Project\Vos3000AgentCSharp\Replayer\obj\verifybuild\VosReplayer.exe
+C:\Users\PC\Documents\Default Project\Vos3000AgentCSharp\Replayer\obj\verifybuild\VosReplayer.deps.json
+C:\Users\PC\Documents\Default Project\Vos3000AgentCSharp\Replayer\obj\verifybuild\VosReplayer.runtimeconfig.json
+C:\Users\PC\Documents\Default Project\Vos3000AgentCSharp\Replayer\obj\verifybuild\VosReplayer.dll
+C:\Users\PC\Documents\Default Project\Vos3000AgentCSharp\Replayer\obj\verifybuild\VosReplayer.pdb
+C:\Users\PC\AppData\Local\Temp\opencode\vbuild\Debug\net8.0\VosReplayer.exe
+C:\Users\PC\AppData\Local\Temp\opencode\vbuild\Debug\net8.0\VosReplayer.deps.json
+C:\Users\PC\AppData\Local\Temp\opencode\vbuild\Debug\net8.0\VosReplayer.runtimeconfig.json
+C:\Users\PC\AppData\Local\Temp\opencode\vbuild\Debug\net8.0\VosReplayer.dll
+C:\Users\PC\AppData\Local\Temp\opencode\vbuild\Debug\net8.0\VosReplayer.pdb
+C:\Users\PC\AppData\Local\Temp\opencode\buildcheck\VosReplayer.exe
+C:\Users\PC\AppData\Local\Temp\opencode\buildcheck\VosReplayer.deps.json
+C:\Users\PC\AppData\Local\Temp\opencode\buildcheck\VosReplayer.runtimeconfig.json
+C:\Users\PC\AppData\Local\Temp\opencode\buildcheck\VosReplayer.dll
+C:\Users\PC\AppData\Local\Temp\opencode\buildcheck\VosReplayer.pdb
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild\VosReplayer.exe
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild\VosReplayer.deps.json
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild\VosReplayer.runtimeconfig.json
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild\VosReplayer.dll
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild\VosReplayer.pdb
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild2\VosReplayer.exe
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild2\VosReplayer.deps.json
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild2\VosReplayer.runtimeconfig.json
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild2\VosReplayer.dll
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild2\VosReplayer.pdb
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild3\VosReplayer.exe
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild3\VosReplayer.deps.json
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild3\VosReplayer.runtimeconfig.json
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild3\VosReplayer.dll
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild3\VosReplayer.pdb
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild4\VosReplayer.exe
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild4\VosReplayer.deps.json
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild4\VosReplayer.runtimeconfig.json
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild4\VosReplayer.dll
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild4\VosReplayer.pdb
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild5\VosReplayer.exe
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild5\VosReplayer.deps.json
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild5\VosReplayer.runtimeconfig.json
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild5\VosReplayer.dll
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild5\VosReplayer.pdb
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild6\VosReplayer.exe
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild6\VosReplayer.deps.json
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild6\VosReplayer.runtimeconfig.json
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild6\VosReplayer.dll
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild6\VosReplayer.pdb
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild7\VosReplayer.exe
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild7\VosReplayer.deps.json
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild7\VosReplayer.runtimeconfig.json
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild7\VosReplayer.dll
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild7\VosReplayer.pdb
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild8\VosReplayer.exe
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild8\VosReplayer.deps.json
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild8\VosReplayer.runtimeconfig.json
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild8\VosReplayer.dll
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild8\VosReplayer.pdb
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild9\VosReplayer.exe
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild9\VosReplayer.deps.json
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild9\VosReplayer.runtimeconfig.json
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild9\VosReplayer.dll
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild9\VosReplayer.pdb

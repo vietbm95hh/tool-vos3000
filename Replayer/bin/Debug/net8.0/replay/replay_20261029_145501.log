@@ -1,0 +1,139 @@
+﻿[14:55:01.484] ====================
+[14:55:01.489]  SESSION : C:\Users\PC\Documents\Default Project\Vos3000AgentCSharp\ProxyCapture\bin\Debug\net8.0\capture\s01_c2s.bin
+[14:55:01.489]  HOST    : 172.29.101.27:1202
+[14:55:01.489]  MODE    : DRY RUN - khong gui SET
+[14:55:01.489] ====================
+[14:55:01.497] Tong byte: 14407
+[14:55:01.497] So packet: 53
+[14:55:01.500]   #00 msgId=0x0 type=0 tick=0x0 payload=60  
+[14:55:01.508]   #01 msgId=0x0 type=0 tick=0x6AEF91 payload=159  com.kunshi.interfacef.common.Filter..n.6R6^...I..disableMaskI..maskL..
+[14:55:01.508]   #02 msgId=0x0 type=0 tick=0x6AEF7F payload=402  com.kunshi.interfacef.common.ReqSetInfo..hE.r.....I..rowIndexL..infot.
+[14:55:01.508]   #03 msgId=0x0 type=0 tick=0x6AEF72 payload=197  com.kunshi.interfacef.vos2000.FilterFeeRateGroupf.mH.l>....xr.#com.kun
+[14:55:01.508]   #04 msgId=0x0 type=0 tick=0x6AEFAB payload=159  com.kunshi.interfacef.common.Filter..n.6R6^...I..disableMaskI..maskL..
+[14:55:01.508]   #05 msgId=0x0 type=0 tick=0x6AEF7B payload=0  
+[14:55:01.509]   #06 msgId=0x0 type=0 tick=0x6AEF76 payload=440  com.kunshi.interfacef.vos2000.FilterUser*!U........L..infoUsert.(Lcom/
+[14:55:01.509]   #07 msgId=0x0 type=0 tick=0x6AEF9D payload=0  
+[14:55:01.509]   #08 msgId=0x0 type=0 tick=0x6AEFE7 payload=0  
+[14:55:01.509]   #09 msgId=0x0 type=0 tick=0x6AEFCF payload=403  com.kunshi.interfacef.vos2000.FilterCityCode.....L.....I..MASK_CITYI..
+[14:55:01.509]   #10 msgId=0x0 type=0 tick=0x6AEFB1 payload=484  com.kunshi.interfacef.vos2000.FilterMbx.../Pn.....L..infoMbxt.'Lcom/ku
+[14:55:01.509]   #11 msgId=0x0 type=0 tick=0x6AEFD3 payload=189  com.kunshi.interfacef.vos2000.FilterIvrW....|.....xr.#com.kunshi.inter
+[14:55:01.509]   #12 msgId=0x0 type=0 tick=0x6AEFEF payload=343  com.kunshi.interfacef.vos2000.FilterLanguage..q.U......L..infot.,Lcom/
+[14:55:01.509]   #13 msgId=0x0 type=0 tick=0x6AF014 payload=351  com.kunshi.interfacef.vos2000.FilterGatewayGroup{..!.XR....L..infot.0L
+[14:55:01.509]   #14 msgId=0x0 type=0 tick=0x6AEFCB payload=159  com.kunshi.interfacef.common.Filter..n.6R6^...I..disableMaskI..maskL..
+[14:55:01.509]   #15 msgId=0x0 type=0 tick=0x6AEF69 payload=947  com.kunshi.interfacef.vos2000.FilterCustomer.n....~....J..expireTimeFr
+[14:55:01.509]   #16 msgId=0x0 type=0 tick=0x6AEFCB payload=159  com.kunshi.interfacef.common.Filter..n.6R6^...I..disableMaskI..maskL..
+[14:55:01.509]   #17 msgId=0x0 type=0 tick=0x6AEFDD payload=1169  com.kunshi.interfacef.vos2000.FilterGatewayMapping...g.......L..agentA
+[14:55:01.509]   #18 msgId=0x0 type=0 tick=0x6AEFCB payload=159  com.kunshi.interfacef.common.Filter..n.6R6^...I..disableMaskI..maskL..
+[14:55:01.509]   #19 msgId=0x0 type=0 tick=0x6AEFCB payload=159  com.kunshi.interfacef.common.Filter..n.6R6^...I..disableMaskI..maskL..
+[14:55:01.509]   #20 msgId=0x0 type=0 tick=0x6AEFCB payload=159  com.kunshi.interfacef.common.Filter..n.6R6^...I..disableMaskI..maskL..
+[14:55:01.509]   #21 msgId=0x0 type=0 tick=0x6AEFCB payload=159  com.kunshi.interfacef.common.Filter..n.6R6^...I..disableMaskI..maskL..
+[14:55:01.509]   #22 msgId=0x0 type=0 tick=0x6AEFCB payload=159  com.kunshi.interfacef.common.Filter..n.6R6^...I..disableMaskI..maskL..
+[14:55:01.509]   #23 msgId=0x0 type=0 tick=0x6AEFCB payload=159  com.kunshi.interfacef.common.Filter..n.6R6^...I..disableMaskI..maskL..
+[14:55:01.509]   #24 msgId=0x0 type=0 tick=0x6AEFCB payload=159  com.kunshi.interfacef.common.Filter..n.6R6^...I..disableMaskI..maskL..
+[14:55:01.509]   #25 msgId=0x0 type=0 tick=0x6AEFCB payload=159  com.kunshi.interfacef.common.Filter..n.6R6^...I..disableMaskI..maskL..
+[14:55:01.509]   #26 msgId=0x0 type=0 tick=0x6AEFCB payload=159  com.kunshi.interfacef.common.Filter..n.6R6^...I..disableMaskI..maskL..
+[14:55:01.509]   #27 msgId=0x0 type=0 tick=0x6AEFCB payload=159  com.kunshi.interfacef.common.Filter..n.6R6^...I..disableMaskI..maskL..
+[14:55:01.509]   #28 msgId=0x0 type=0 tick=0x6AEFCB payload=159  com.kunshi.interfacef.common.Filter..n.6R6^...I..disableMaskI..maskL..
+[14:55:01.509]   #29 msgId=0x0 type=0 tick=0x6AEFCB payload=159  com.kunshi.interfacef.common.Filter..n.6R6^...I..disableMaskI..maskL..
+[14:55:01.509]   #30 msgId=0x0 type=0 tick=0x6AEFCB payload=159  com.kunshi.interfacef.common.Filter..n.6R6^...I..disableMaskI..maskL..
+[14:55:01.509]   #31 msgId=0x0 type=0 tick=0x6AEFCB payload=159  com.kunshi.interfacef.common.Filter..n.6R6^...I..disableMaskI..maskL..
+[14:55:01.509]   #32 msgId=0x0 type=0 tick=0x6AEFCB payload=159  com.kunshi.interfacef.common.Filter..n.6R6^...I..disableMaskI..maskL..
+[14:55:01.509]   #33 msgId=0x0 type=0 tick=0x6AEFCB payload=159  com.kunshi.interfacef.common.Filter..n.6R6^...I..disableMaskI..maskL..
+[14:55:01.509]   #34 msgId=0x0 type=0 tick=0x6AEFCB payload=159  com.kunshi.interfacef.common.Filter..n.6R6^...I..disableMaskI..maskL..
+[14:55:01.509]   #35 msgId=0x0 type=0 tick=0x6AEFCB payload=159  com.kunshi.interfacef.common.Filter..n.6R6^...I..disableMaskI..maskL..
+[14:55:01.509]   #36 msgId=0x0 type=0 tick=0x6AEFCB payload=159  com.kunshi.interfacef.common.Filter..n.6R6^...I..disableMaskI..maskL..
+[14:55:01.509]   #37 msgId=0x0 type=0 tick=0x6AEFCB payload=159  com.kunshi.interfacef.common.Filter..n.6R6^...I..disableMaskI..maskL..
+[14:55:01.509]   #38 msgId=0x0 type=0 tick=0x6AEFCB payload=159  com.kunshi.interfacef.common.Filter..n.6R6^...I..disableMaskI..maskL..
+[14:55:01.509]   #39 msgId=0x0 type=0 tick=0x6AEFCB payload=159  com.kunshi.interfacef.common.Filter..n.6R6^...I..disableMaskI..maskL..
+[14:55:01.509]   #40 msgId=0x0 type=0 tick=0x6AEFCB payload=159  com.kunshi.interfacef.common.Filter..n.6R6^...I..disableMaskI..maskL..
+[14:55:01.509]   #41 msgId=0x0 type=0 tick=0x6AEFCB payload=159  com.kunshi.interfacef.common.Filter..n.6R6^...I..disableMaskI..maskL..
+[14:55:01.510]   #42 msgId=0x0 type=0 tick=0x6AEFCB payload=159  com.kunshi.interfacef.common.Filter..n.6R6^...I..disableMaskI..maskL..
+[14:55:01.510]   #43 msgId=0x0 type=0 tick=0x6AEFCB payload=159  com.kunshi.interfacef.common.Filter..n.6R6^...I..disableMaskI..maskL..
+[14:55:01.510]   #44 msgId=0x0 type=0 tick=0x6AEFCB payload=159  com.kunshi.interfacef.common.Filter..n.6R6^...I..disableMaskI..maskL..
+[14:55:01.510]   #45 msgId=0x0 type=0 tick=0x6AEFCB payload=159  com.kunshi.interfacef.common.Filter..n.6R6^...I..disableMaskI..maskL..
+[14:55:01.510]   #46 msgId=0x0 type=0 tick=0x6AEFCB payload=159  com.kunshi.interfacef.common.Filter..n.6R6^...I..disableMaskI..maskL..
+[14:55:01.510]   #47 msgId=0x0 type=0 tick=0x6AEFDC payload=1260  com.kunshi.interfacef.common.ReqSetInfoList..]B 1o}...I..fatherIdL..cr
+[14:55:01.510]   #48 msgId=0x0 type=0 tick=0x6AEFCB payload=159  com.kunshi.interfacef.common.Filter..n.6R6^...I..disableMaskI..maskL..
+[14:55:01.510]   #49 msgId=0x0 type=0 tick=0x6AEFCB payload=159  com.kunshi.interfacef.common.Filter..n.6R6^...I..disableMaskI..maskL..
+[14:55:01.510]   #50 msgId=0x0 type=0 tick=0x6AEFCB payload=159  com.kunshi.interfacef.common.Filter..n.6R6^...I..disableMaskI..maskL..
+[14:55:01.510]   #51 msgId=0x0 type=0 tick=0x6AEFCB payload=159  com.kunshi.interfacef.common.Filter..n.6R6^...I..disableMaskI..maskL..
+[14:55:01.510]   #52 msgId=0x0 type=0 tick=0x6AEFCB payload=159  com.kunshi.interfacef.common.Filter..n.6R6^...I..disableMaskI..maskL..
+[14:55:01.510] Packet SET: #47
+[14:55:01.510] DRY RUN: packet SET se KHONG duoc gui (va cung khong patch).
+[14:55:01.517] Ket noi 172.29.101.27:1202...
+[14:55:01.527] Da ket noi.
+[14:55:01.527] GUI #0 msgId=0x0 type=0 (96 bytes)
+[14:55:01.529]   SERVER(#0)->: 75 bytes 
+[14:55:01.571]   SERVER(#0)->: 235 bytes 
+[14:55:02.278] GUI #1 msgId=0x0 type=0 (195 bytes)
+[14:55:02.280]   SERVER(#1)->: 427 bytes 
+[14:55:02.978] GUI #2 msgId=0x0 type=0 (438 bytes)
+[14:55:02.982]   SERVER(#2)->: 564 bytes 
+[14:55:03.681] GUI #3 msgId=0x0 type=0 (233 bytes)
+[14:55:03.684]   SERVER(#3)->: 292 bytes 
+[14:55:04.390] GUI #4 msgId=0x0 type=0 (195 bytes)
+[14:55:04.392]   SERVER(#4)->: 292 bytes 
+[14:55:05.102] GUI #5 msgId=0x0 type=0 (36 bytes)
+[14:55:05.104]   SERVER(#5)->: 410 bytes 
+[14:55:05.805] GUI #6 msgId=0x0 type=0 (476 bytes)
+[14:55:05.808]   SERVER(#6)->: 643 bytes 
+[14:55:06.508] GUI #7 msgId=0x0 type=0 (36 bytes)
+[14:55:06.511]   SERVER(#7)->: 1241 bytes 
+[14:55:07.212] GUI #8 msgId=0x0 type=0 (36 bytes)
+[14:55:07.216]   SERVER(#8)->: 633 bytes 
+[14:55:07.914] GUI #9 msgId=0x0 type=0 (439 bytes)
+[14:55:07.917]   SERVER(#9)->: 292 bytes 
+[14:55:08.618] GUI #10 msgId=0x0 type=0 (520 bytes)
+[14:55:08.625]   SERVER(#10)->: 1651 bytes 
+[14:55:09.337] GUI #11 msgId=0x0 type=0 (225 bytes)
+[14:55:09.342]   SERVER(#11)->: 1125 bytes 
+[14:55:10.039] GUI #12 msgId=0x0 type=0 (379 bytes)
+[14:55:10.043]   SERVER(#12)->: 292 bytes 
+[14:55:10.743] GUI #13 msgId=0x0 type=0 (387 bytes)
+[14:55:10.747]   SERVER(#13)->: 292 bytes 
+[14:55:11.446] GUI #14 msgId=0x0 type=0 (195 bytes)
+[14:55:11.448]   SERVER(#14)->: 529 bytes 
+[14:55:12.149] GUI #15 msgId=0x0 type=0 (983 bytes)
+[14:55:12.155]   SERVER(#15)->: 910 bytes 
+[14:55:12.868] GUI #16 msgId=0x0 type=0 (195 bytes)
+[14:55:12.871]   SERVER(#16)->: 532 bytes 
+[14:55:13.570] GUI #17 msgId=0x0 type=0 (1205 bytes)
+[14:55:13.577]   SERVER(#17)->: 1241 bytes 
+[14:55:14.290] GUI #18 msgId=0x0 type=0 (195 bytes)
+[14:55:14.292]   SERVER(#18)->: 530 bytes 
+[14:55:14.992] GUI #19 msgId=0x0 type=0 (195 bytes)
+[14:55:14.995]   SERVER(#19)->: 530 bytes 
+[14:55:15.696] GUI #20 msgId=0x0 type=0 (195 bytes)
+[14:55:15.700]   SERVER(#20)->: 529 bytes 
+[14:55:16.399] GUI #21 msgId=0x0 type=0 (195 bytes)
+[14:55:16.401]   SERVER(#21)->: 531 bytes 
+[14:55:17.105] GUI #22 msgId=0x0 type=0 (195 bytes)
+[14:55:17.108]   SERVER(#22)->: 531 bytes 
+[14:55:17.807] GUI #23 msgId=0x0 type=0 (195 bytes)
+[14:55:17.813]   SERVER(#23)->: 530 bytes 
+[14:55:18.509] GUI #24 msgId=0x0 type=0 (195 bytes)
+[14:55:18.512]   SERVER(#24)->: 531 bytes 
+[14:55:19.212] GUI #25 msgId=0x0 type=0 (195 bytes)
+[14:55:19.218]   SERVER(#25)->: 532 bytes 
+[14:55:19.930] GUI #26 msgId=0x0 type=0 (195 bytes)
+[14:55:19.932]   SERVER(#26)->: 531 bytes 
+[14:55:20.633] GUI #27 msgId=0x0 type=0 (195 bytes)
+[14:55:20.637]   SERVER(#27)->: 530 bytes 
+[14:55:21.352] GUI #28 msgId=0x0 type=0 (195 bytes)
+[14:55:21.354]   SERVER(#28)->: 533 bytes 
+[14:55:22.056] GUI #29 msgId=0x0 type=0 (195 bytes)
+[14:55:22.060]   SERVER(#29)->: 531 bytes 
+[14:55:22.774] GUI #30 msgId=0x0 type=0 (195 bytes)
+[14:55:22.776]   SERVER(#30)->: 531 bytes 
+[14:55:23.477] GUI #31 msgId=0x0 type=0 (195 bytes)
+[14:55:23.479]   SERVER(#31)->: 529 bytes 
+[14:55:24.180] GUI #32 msgId=0x0 type=0 (195 bytes)
+[14:55:24.183]   SERVER(#32)->: 530 bytes 
+[14:55:24.884] GUI #33 msgId=0x0 type=0 (195 bytes)
+[14:55:24.889]   SERVER(#33)->: 531 bytes 
+[14:55:25.602] GUI #34 msgId=0x0 type=0 (195 bytes)
+[14:55:25.605]   SERVER(#34)->: 531 bytes 
+[14:55:26.305] GUI #35 msgId=0x0 type=0 (195 bytes)
+[14:55:26.307]   SERVER(#35)->: 531 bytes 
+[14:55:27.008] GUI #36 msgId=0x0 type=0 (195 bytes)
+[14:55:27.010]   SERVER(#36)->: 531 bytes 

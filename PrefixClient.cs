@@ -1,0 +1,698 @@
+// ============================================================
+//  PrefixClient - doc / ghi "Mapping Caller Prefix" tren VOS3000 (1202)
+//
+//  SS "Mapping Caller Prefix" = 1 dong gateway mapping = 1 account customer
+//  (e_gatewaymapping + e_gatewaymappingsetting). Tren server co NHIEU
+//  account, moi account giu danh sach so rieng (calloutCallerPrefixes).
+//
+//  File nay ho tro 2 che do:
+//   1) 1 mapping (tuong thich cu): ReadCurrentWithObjects / WriteCurrent
+//   2) TAT CA mapping theo tung account: ReadAllMappings / WriteMappings
+//      - doc: gui FilterGatewayMapping "broadcast" -> server tra MOI mapping
+//      - ghi: lan luot SET tung mapping (dung dung duong da kiem chung),
+//        moi lan patch id/rowIndex theo object live -> add/khoa/mo dong bo
+//        tren moi account.
+// ============================================================
+using System.Text;
+
+namespace Vos3000Agent
+{
+    public class PrefixClient
+    {
+        public string Host { get; }
+        public int Port { get; }
+        public string SessionFile { get; }
+
+        private List<byte[]> _pk;
+        public int HelloIdx = -1, LoginIdx = -1, GetIdx = -1, SetIdx = -1;
+        public int RouteGetIdx = -1, RouteSetIdx = -1;
+
+        private readonly Action<string> _log;
+
+        // Packet GET/SET routing lấy từ traffic thật (proxy/manual capture) — dùng khi file session
+        // template không có FilterGatewayRouting / ReqSetInfoList cho InfoGatewayRouting.
+        public byte[] RouteGetPacket { get; set; }
+        public byte[] RouteSetPacket { get; set; }
+        public PrefixClient(string host, int port, string sessionFile, Action<string> log)
+        {
+            Host = host; Port = port; SessionFile = sessionFile; _log = log;
+        }
+
+        public bool LoadSession()
+        {
+            _pk = new List<byte[]>();
+            if (string.IsNullOrWhiteSpace(SessionFile) || !File.Exists(SessionFile))
+            {
+                _log($"!! Khong tim thay file session (template): {SessionFile}");
+                return false;
+            }
+            try
+            {
+                var raw = File.ReadAllBytes(SessionFile);
+                _pk = VosProto.SplitPackets(raw);
+            }
+            catch (Exception e)
+            {
+                _log($"!! Loi doc session: {e.Message}");
+                return false;
+            }
+
+            HelloIdx = -1; LoginIdx = -1; GetIdx = -1; SetIdx = -1;
+            for (int i = 0; i < _pk.Count; i++)
+            {
+                var pkt = _pk[i];
+                if (HelloIdx < 0 && !VosProto.IsGzip(pkt)) { HelloIdx = i; continue; }
+                if (!VosProto.TryDecompressFrom(pkt, VosProto.HeaderLen, out var obj)) continue;
+                var txt = Encoding.UTF8.GetString(obj);
+                if (LoginIdx < 0 && txt.Contains("loginName")) LoginIdx = i;
+                if (GetIdx < 0 && txt.Contains("FilterGatewayMapping")) GetIdx = i;
+                if (SetIdx < 0 && txt.Contains("ReqSetInfoList")) SetIdx = i;
+            }
+            _log($"Session: {_pk.Count} packet (hello#{HelloIdx} login#{LoginIdx} GET#{GetIdx} SET#{SetIdx})");
+            // chẩn đoán: filter GET trong template đang lọc theo gì (idSet/agent/account)?
+            if (GetIdx >= 0)
+                _log("Filter GET: " + GatewayMappingCodec.DescribeFilter(_pk[GetIdx]));
+            if (HelloIdx < 0 || LoginIdx < 0 || GetIdx < 0 || SetIdx < 0)
+            {
+                _log("!! Session thieu packet can thiet.");
+                return false;
+            }
+            return true;
+        }
+
+        /// <summary>
+        /// Nạp packet GET/SET call-in (InfoGatewayRouting) từ 2 nguồn:
+        ///   1) trong file session (nếu có),
+        ///   2) traffic thật đã bắt qua proxy (ưu tiên — đúng định dạng server hiện tại).
+        /// </summary>
+        public void LoadRoutingTemplates(byte[] trafficChunkWithGet, byte[] trafficChunkWithSet)
+        {
+            RouteGetIdx = -1; RouteSetIdx = -1;
+            for (int i = 0; i < _pk.Count; i++)
+            {
+                if (!VosProto.TryDecompressFrom(_pk[i], VosProto.HeaderLen, out var obj)) continue;
+                var txt = Encoding.UTF8.GetString(obj);
+                if (RouteGetIdx < 0 && txt.Contains("FilterGatewayRouting")) RouteGetIdx = i;
+                if (RouteSetIdx < 0 && txt.Contains("InfoGatewayRouting") && txt.Contains("ReqSetInfoList")) RouteSetIdx = i;
+            }
+
+            if (trafficChunkWithGet != null)
+                RouteGetPacket = RoutingCodec.FindFilterPacket(trafficChunkWithGet);
+            if (trafficChunkWithSet != null)
+                RouteSetPacket = FindRoutingSetPacket(trafficChunkWithSet);
+
+            if (RouteGetPacket == null && RouteGetIdx >= 0) RouteGetPacket = _pk[RouteGetIdx];
+            if (RouteSetPacket == null && RouteSetIdx >= 0) RouteSetPacket = _pk[RouteSetIdx];
+
+            _log($"Routing templates: GET={(RouteGetPacket != null ? "co" : "THIEU")} " +
+                 $"SET={(RouteSetPacket != null ? "co" : "THIEU")}");
+        }
+
+        /// <summary>Tìm packet SET (ReqSetInfoList chứa InfoGatewayRouting) trong 1 chunk traffic.</summary>
+        public static byte[] FindRoutingSetPacket(byte[] buf)
+        {
+            if (buf == null) return null;
+            for (int i = 0; i < buf.Length; i++)
+            {
+                var pkt = VosProto.PacketAt(buf, i);
+                if (pkt == null) continue;
+                if (!VosProto.TryDecompressFrom(pkt, VosProto.HeaderLen, out var obj)) continue;
+                var txt = Encoding.UTF8.GetString(obj);
+                if (txt.Contains("ReqSetInfoList") && txt.Contains("InfoGatewayRouting")) return pkt;
+            }
+            return null;
+        }
+
+        /// <summary>True nếu đã có đủ template để đọc/ghi call-in qua VOS (RAM).</summary>
+        public bool HasRoutingTemplates => RouteGetPacket != null && RouteSetPacket != null;
+
+        // ============================================================
+        //  CALL-IN: gateway routing (InfoGatewayRouting)
+        // ============================================================
+
+        /// <summary>
+        /// Đọc TẤT CẢ gateway routing (call-in) từ VOS (RAM, qua TCP 1202).
+        /// Filter được đổi sang agentAccount="" + clearingCustomerAccount="*".
+        /// </summary>
+        public List<RoutingEntry> ReadAllRoutings(VosSession s)
+        {
+            var res = new List<RoutingEntry>();
+            if (s == null) return res;
+            if (RouteGetPacket == null)
+            {
+                _log?.Invoke("!! Không có template GET GatewayRouting — bỏ qua đọc call-in từ VOS.");
+                return res;
+            }
+
+            var filter = RoutingCodec.BroadcastFilter(RouteGetPacket) ?? RouteGetPacket;
+            var objs = s.SendPacket(filter, 2500);
+            foreach (var _ in s.ReadAvailable(1200)) { }   // gói bổ sung (danh sách dài, server push tiếp)
+
+            var seen = new HashSet<long>();
+            foreach (var o in RoutingCodec.ParseAll(objs, m => _log?.Invoke(m)))
+            {
+                long id = RoutingCodec.Id(o);
+                if (id > 0 && !seen.Add(id)) continue;
+                res.Add(new RoutingEntry
+                {
+                    Id = id,
+                    ClearingCustomerId = RoutingCodec.ClearingCustomerId(o),
+                    Account = RoutingCodec.ClearingCustomerAccount(o),
+                    Name = RoutingCodec.Name(o),
+                    Prefix = RoutingCodec.Prefix(o),
+                    Obj = o,
+                });
+            }
+            res.Sort((a, b) => a.Id.CompareTo(b.Id));
+            _log?.Invoke($"  Đọc được {res.Count} gateway routing (call-in) từ VOS.");
+            foreach (var e in res)
+            {
+                int n = NumberLockUtil.SplitPlain(e.Prefix).Count;
+                string prefixNote = e.Prefix == null
+                    ? "field 'prefix' KHÔNG tồn tại"
+                    : e.Prefix.Length == 0
+                        ? "field 'prefix' rỗng"
+                        : $"'{Short(e.Prefix)}'";
+                _log?.Invoke($"    • routing#{e.Id} {e.Display}" +
+                             (string.IsNullOrEmpty(e.Name) ? "" : $" ({e.Name})") +
+                             $": {n} số" + (n == 0 ? $" — {prefixNote}" : ""));
+                if (n == 0)
+                    _log?.Invoke("        field chuỗi: " + RoutingCodec.DescribeStringFields(e.Obj));
+            }
+            return res;
+        }
+
+        /// <summary>
+        /// Ghi prefix mới cho NHIỀU gateway routing trên CÙNG 1 session — ghi vào RAM VOS
+        /// (mỗi routing dựng SET từ object GET live của CHÍNH routing đó, chỉ thay field prefix).
+        /// </summary>
+        public void WriteRoutings(VosSession s, IReadOnlyList<(RoutingEntry Entry, string NewPrefix)> items)
+        {
+            if (s == null || items == null || items.Count == 0) return;
+            if (RouteSetPacket == null)
+            {
+                _log?.Invoke("!! Không có template SET GatewayRouting — bỏ qua ghi call-in vào VOS.");
+                return;
+            }
+
+            int idx = 0;
+            foreach (var (entry, newPrefix) in items)
+            {
+                idx++;
+                var setPkt = RoutingCodec.BuildSetPacket(RouteSetPacket, entry.Obj, newPrefix, m => _log?.Invoke(m));
+                if (setPkt == null)
+                {
+                    _log?.Invoke($"!! [{idx}/{items.Count}] routing#{entry.Id} ({entry.Account}): không dựng được packet SET.");
+                    continue;
+                }
+
+                _log?.Invoke($"  SET routing [{idx}/{items.Count}] {entry.Display} (id={entry.Id}): " +
+                             $"{(entry.Prefix ?? "").Length} -> {newPrefix.Length} ký tự");
+                var resp = s.SendPacket(setPkt, 1200);
+                if (resp.Count == 0) _log?.Invoke("    (không nhận phản hồi SET ngay)");
+                System.Threading.Thread.Sleep(200);
+                foreach (var _ in s.ReadAvailable(400)) { }
+            }
+        }
+
+        private VosSession NewSession()
+        {
+            var s = new VosSession(Host, Port, m => _log("  " + m));
+            if (!s.Connect())
+            {
+                s.Dispose();
+                _log($"!! Khong ket noi {Host}:{Port} — {s.LastError}");
+                return null;
+            }
+            return s;
+        }
+
+       
+        public VosSession OpenSession()
+        {
+            if (!LoadSession()) return null;
+            var s = NewSession();
+            if (s == null) return null;
+            foreach (var _ in s.SendPacket(_pk[HelloIdx], 900)) { }
+            foreach (var _ in s.SendPacket(_pk[LoginIdx], 1200)) { }
+            return s;
+        }
+
+
+        public PrefixRead ReadCurrentWithObjects(VosSession s)
+        {
+            var r = new PrefixRead();
+            if (s == null) return r;
+            foreach (var o in s.SendPacket(_pk[GetIdx], 1500)) r.Objects.Add(o);
+            var best = new List<string>();
+            foreach (var o in r.Objects) best.AddRange(VosProto.AllPrefixStrings(o));
+            if (best.Count > 0) r.Value = best.OrderByDescending(x => x.Length).First();
+            return r;
+        }
+
+        public string ReadCurrent(VosSession s) => ReadCurrentWithObjects(s).Value;
+
+    
+        public string WriteCurrent(VosSession s, string value) => WriteCurrent(s, value, out _);
+
+        public string WriteCurrent(VosSession s, string value, out string livePre)
+        {
+            livePre = null;
+            if (s == null) return null;
+            var live = ReadCurrentWithObjects(s);
+            if (live?.Value == null) { _log("!! Khong doc duoc prefix hien tai truoc khi SET."); return null; }
+            livePre = live.Value;
+            var setPkt = VosProto.BuildSetPacket(_pk[SetIdx], value, MappingObjectOf(live), m => _log(m));
+            if (setPkt == null) return null;
+            //_log($"SET '{value}' ({setPkt.Length} bytes)...");
+            var resp = s.SendPacket(setPkt, 1500);
+            //_log(resp.Count > 0 ? "  Server phan hoi SET." : "  (khong nhan phan hoi SET ngay)");
+            System.Threading.Thread.Sleep(300);
+            foreach (var _ in s.ReadAvailable(600)) { }
+            var rb = ReadCurrent(s);
+            //_log("GET readback: '" + (rb ?? "?") + "'");
+            return rb;
+        }
+
+        
+        public static byte[] MappingObjectOf(PrefixRead pr)
+        {
+            byte[] foundObj = null;
+            foreach (var o in pr.Objects)
+                if (System.Text.Encoding.UTF8.GetString(o).Contains("InfoGatewayMapping"))
+                    foundObj = o;
+            return foundObj;
+        }
+
+        private PrefixRead GetOnSession(VosSession s, int mode)
+        {
+            var r = new PrefixRead();
+            if (mode == 0)
+            {
+                foreach (var o in s.SendPacket(_pk[HelloIdx], 900)) r.Objects.Add(o);
+                foreach (var o in s.SendPacket(_pk[LoginIdx], 1200)) r.Objects.Add(o);
+                foreach (var o in s.SendPacket(_pk[GetIdx], 1500)) r.Objects.Add(o);
+            }
+            else
+            {
+                for (int i = 0; i <= GetIdx; i++)
+                    foreach (var o in s.SendPacket(_pk[i], 700)) r.Objects.Add(o);
+            }
+            // lay gia tri dai nhat trong cac chuoi prefix (calloutCallerPrefixes)
+            var best = new List<string>();
+            foreach (var o in r.Objects) best.AddRange(VosProto.AllPrefixStrings(o));
+            if (best.Count > 0) r.Value = best.OrderByDescending(x => x.Length).First();
+            return r;
+        }
+
+        /// Doc prefix hien tai. Tra ve null neu khong doc duoc.
+        public string ReadPrefix()
+        {
+            if (!LoadSession()) return null;
+            using var s = NewSession();
+            if (s == null) return null;
+            var r = GetOnSession(s, 0);
+            if (r.Value == null)
+            {
+                _log("Flow fast khong doc duoc -> thu flow full (replay 0..GET)...");
+                s.Dispose();
+                using var s2 = NewSession();
+                if (s2 == null) return null;
+                r = GetOnSession(s2, 1);
+            }
+            return r.Value;
+        }
+
+        /// Ghi prefix moi, tra ve gia tri doc lai sau khi SET (null neu that bai).
+        public string WritePrefix(string value)
+        {
+            if (!LoadSession()) return null;
+            using var s = NewSession();
+            if (s == null) return null;
+            foreach (var _ in s.SendPacket(_pk[HelloIdx], 900)) { }
+            foreach (var _ in s.SendPacket(_pk[LoginIdx], 1200)) { }
+            var setPkt = VosProto.BuildSetPacket(_pk[SetIdx], value, MappingObjectOf(GetOnSession(s, 0)), m => _log(m));
+            if (setPkt == null) { s.Dispose(); return null; }
+            _log($"SET '{value}' ({setPkt.Length} bytes)...");
+            var resp = s.SendPacket(setPkt, 1500);
+            _log(resp.Count > 0 ? "  Server phan hoi SET." : "  (khong nhan phan hoi SET ngay)");
+            System.Threading.Thread.Sleep(300);
+            foreach (var _ in s.ReadAvailable(600)) { }
+            // GET read-back
+            var rb = GetOnSession(s, 0);
+            //_log("GET readback: '" + (rb.Value ?? "?") + "'");
+            return rb.Value;
+        }
+
+        /// Them/xoa so voi danh sach hien tai. Tra gia tri doc lai (null neu loi).
+        public string ModifyPrefix(IEnumerable<string> items, bool add)
+        {
+            if (!LoadSession()) return null;
+            using var s = NewSession();
+            if (s == null) return null;
+            var r = GetOnSession(s, 0);
+            if (r.Value == null)
+            {
+                _log("!! Khong doc duoc prefix hien tai - dung de an toan.");
+                return null;
+            }
+            string cur = r.Value;
+            string head = cur.Substring(0, 2);
+            var list = cur.Substring(2).Split(',', StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries).ToList();
+            foreach (var it in items)
+            {
+                if (add)
+                {
+                    if (list.Contains(it)) { _log($"  '{it}' da ton tai - bo qua"); continue; }
+                    list.Add(it);
+                    _log($"  + them '{it}'");
+                }
+                else
+                {
+                    if (!list.Remove(it)) _log($"  - '{it}' khong co trong danh sach");
+                    else _log($"  - da xoa '{it}'");
+                }
+            }
+            string newVal = head + string.Join(",", list);
+            if (newVal == cur)
+            {
+                _log("Gia tri khong doi - khong can ghi.");
+                return cur;
+            }
+            _log($"Gia tri moi: '{newVal}'");
+            var setPkt = VosProto.BuildSetPacket(_pk[SetIdx], newVal, MappingObjectOf(r), m => _log(m));
+            if (setPkt == null) return null;
+            var resp = s.SendPacket(setPkt, 1500);
+            System.Threading.Thread.Sleep(300);
+            foreach (var _ in s.ReadAvailable(600)) { }
+            var rb = GetOnSession(s, 0);
+            _log("GET readback: '" + (rb.Value ?? "?") + "'");
+            return rb.Value;
+        }
+
+        // ============================================================
+        //  TAT CA MAPPING (nhieu account customer)
+        // ============================================================
+
+        /// <summary>
+        /// Đọc tất cả gateway mapping đang có trên server (mỗi mapping = 1 account).
+        /// Dùng packet FilterGatewayMapping "broadcast": agentAccount="" + idSet rỗng.
+        /// </summary>
+        public List<MappingEntry> ReadAllMappings(VosSession s)
+        {
+            var res = new List<MappingEntry>();
+            if (s == null) return res;
+            var objs = s.SendPacket(BuildBroadcastFilter(), 2500);
+            foreach (var _ in s.ReadAvailable(1200)) { }   // gói bổ sung (danh sách dài, server push tiếp)
+
+            foreach (var o in objs)
+            {
+                // server có thể trả về 1 chunk chứa nhiều object
+                foreach (var m in GatewayMappingCodec.ParseAll(o, m => _log?.Invoke(m)))
+                {
+                    if (m.CustomerId <= 0 && m.Id <= 0) continue;
+                    res.Add(new MappingEntry
+                    {
+                        MappingId = m.Id,
+                        CustomerId = m.CustomerId,
+                        Name = m.GetString("name") ?? "",
+                        Account = m.GetString("customerAccount") ?? "",
+                        CustomerName = m.GetString("customerName") ?? "",
+                        Prefix = m.CalloutCallerPrefixes,
+                        Obj = m,
+                    });
+                }
+            }
+
+            // khử trùng theo mapping id (server có thể gửi lại)
+            var seen = new HashSet<long>();
+            var uniq = new List<MappingEntry>(res.Count);
+            foreach (var e in res)
+            {
+                if (e.MappingId > 0 && !seen.Add(e.MappingId)) continue;
+                uniq.Add(e);
+            }
+            uniq.Sort((a, b) => a.MappingId.CompareTo(b.MappingId));
+            _log?.Invoke($"  Đọc được {uniq.Count} mapping (account) từ server.");
+            foreach (var e in uniq)
+            {
+                int n = NumberLockUtil.Split(e.Prefix ?? "").Nums.Count;
+                _log?.Invoke($"    • mapping#{e.MappingId} {e.Display}" +
+                             (string.IsNullOrEmpty(e.CustomerName) ? "" : $" ({e.CustomerName})") +
+                             $": {n} số" + (n == 0 ? " — account không có danh sách số (bỏ qua)" : ""));
+            }
+            return uniq;
+        }
+
+        /// <summary>
+        /// Ghi prefix mới cho NHIỀU mapping (account) trên CÙNG 1 session.
+        ///
+        /// Mỗi mapping được dựng lại từ object GET live của CHÍNH account đó
+        /// (đầy đủ 68 field: customerAccount, name, password, infoMbx, ...).
+        /// Chỉ field calloutCallerPrefixes bị thay, nên không thể ghi đè
+        /// cấu hình riêng của account khác như khi dùng template tĩnh.
+        /// </summary>
+        public void WriteMappings(VosSession s, IReadOnlyList<(MappingEntry Entry, string NewPrefix)> items)
+        {
+            if (s == null || items == null || items.Count == 0) return;
+
+            int idx = 0;
+            foreach (var (entry, newPrefix) in items)
+            {
+                idx++;
+                var value = GatewayMappingCodec.NormalizePrefixValue(newPrefix);
+
+                var setPkt = GatewayMappingCodec.BuildSetPacket(_pk[SetIdx], entry.Obj, value, m => _log?.Invoke(m));
+                if (setPkt == null)
+                {
+                    _log?.Invoke($"!! [{idx}/{items.Count}] {entry.Display}: không dựng được packet SET.");
+                    continue;
+                }
+
+                _log?.Invoke($"  SET [{idx}/{items.Count}] {entry.Display} (id={entry.MappingId}): " +
+                             $"'{(entry.Prefix ?? "").Length} ký tự' -> '{value.Length} ký tự'");
+                var resp = s.SendPacket(setPkt, 1200);
+                if (resp.Count == 0) _log?.Invoke("    (không nhận phản hồi SET ngay)");
+                System.Threading.Thread.Sleep(200);
+                foreach (var _ in s.ReadAvailable(400)) { }
+            }
+        }
+
+        /// <summary>
+        /// Áp CÙNG một tập số (khóa/mở) lên TẤT CẢ account customer:
+        ///   - mỗi account giữ số riêng (số không có trong tập thì không đụng),
+        ///   - số có trong tập được đưa về đúng trạng thái khóa/mở,
+        ///   - dọn entry trùng gốc số trong từng account,
+        ///   - chỉ ghi account có thay đổi, ghi từ object GET live của chính account đó.
+        /// Trả về số account ghi thành công / thất bại.
+        /// </summary>
+        public (int Ok, int Failed) ApplyStateToAllMappings(
+            VosSession s,
+            IReadOnlyList<MappingEntry> mappings,
+            IReadOnlyDictionary<string, string> stateByKey)
+        {
+            if (s == null || mappings == null || stateByKey == null) return (0, 0);
+
+            // 1) dựng SET + gửi cho từng account CÓ thay đổi (dùng object GET live của chính account đó)
+            var sent = new List<MappingEntry>();
+            foreach (var e in mappings)
+            {
+                string cur = string.IsNullOrEmpty(e.Prefix) ? GatewayMappingCodec.DefaultPrefix : e.Prefix;
+                var (newPrefix, locked, opened, removedDup) = NumberLockUtil.ApplyState(cur, stateByKey);
+                if (newPrefix == cur) continue;     // đã đúng trạng thái + không trùng
+
+                var value = GatewayMappingCodec.NormalizePrefixValue(newPrefix);
+                var setPkt = GatewayMappingCodec.BuildSetPacket(_pk[SetIdx], e.Obj, value, m => _log?.Invoke(m));
+                if (setPkt == null)
+                {
+                    _log?.Invoke($"  !! {e.Display} (mapping {e.MappingId}): không dựng được packet SET — bỏ qua.");
+                    continue;
+                }
+
+                _log?.Invoke($"  [{sent.Count + 1}] {e.Display} (mapping {e.MappingId}): " +
+                             $"khóa {locked}, mở {opened}, bỏ trùng {removedDup} — đang ghi...");
+                var resp = s.SendPacket(setPkt, 1200);
+                if (resp.Count == 0) _log?.Invoke("    (không nhận phản hồi SET ngay)");
+                System.Threading.Thread.Sleep(150);
+                foreach (var _ in s.ReadAvailable(300)) { }
+                sent.Add(e);
+            }
+
+            // 2) đọc lại 1 lần (broadcast) để đối chiếu tất cả account vừa ghi
+            int ok = 0, failed = 0;
+            if (sent.Count > 0)
+            {
+                var rb = ReadAllMappings(s)
+                    .Where(x => x.MappingId > 0)
+                    .GroupBy(x => x.MappingId)
+                    .ToDictionary(g => g.Key, g => g.First());
+
+                foreach (var e in sent)
+                {
+                    if (rb.TryGetValue(e.MappingId, out var got) && NumberLockUtil.MatchesState(got.Prefix, stateByKey))
+                    {
+                        ok++;
+                        e.Prefix = got.Prefix;
+                    }
+                    else
+                    {
+                        failed++;
+                        _log?.Invoke($"    !! {e.Display}: readback chưa khớp tập số mới ('{Short(got?.Prefix)}').");
+                    }
+                }
+            }
+
+            _log?.Invoke($"  Kết quả: {sent.Count} account cần đổi → OK {ok}, lỗi {failed} " +
+                         $"(tổng {mappings.Count} account).");
+            return (ok, failed);
+        }
+
+        /// <summary>
+        /// Áp CÙNG tập số (khóa/mở) lên TẤT CẢ gateway routing (call-in / settlement).
+        /// Prefix của routing là danh sách thuần ("84...,#84..."), không có head "x;" — chỉ đổi
+        /// trạng thái các số có trong tập, không thêm/xoá số riêng của routing.
+        /// Trả về số routing ghi OK / lỗi.
+        /// </summary>
+        public (int Ok, int Failed) ApplyStateToAllRoutings(
+            VosSession s,
+            IReadOnlyList<RoutingEntry> routings,
+            IReadOnlyDictionary<string, string> stateByKey)
+        {
+            if (s == null || routings == null || stateByKey == null) return (0, 0);
+            if (RouteSetPacket == null)
+            {
+                _log?.Invoke("!! Không có template SET GatewayRouting — bỏ qua ghi call-in.");
+                return (0, 0);
+            }
+
+            var sent = new List<(RoutingEntry Entry, string NewPrefix)>();
+            foreach (var e in routings)
+            {
+                string cur = e.Prefix ?? "";
+                string newPrefix = ApplyStatePlain(cur, stateByKey);
+                if (newPrefix == cur) continue;
+
+                var setPkt = RoutingCodec.BuildSetPacket(RouteSetPacket, e.Obj, newPrefix, m => _log?.Invoke(m));
+                if (setPkt == null)
+                {
+                    _log?.Invoke($"  !! routing#{e.Id} ({e.Display}): không dựng được packet SET — bỏ qua.");
+                    continue;
+                }
+
+                _log?.Invoke($"  [{sent.Count + 1}] routing#{e.Id} {e.Display}: đang ghi...");
+                s.SendPacket(setPkt, 1200);
+                System.Threading.Thread.Sleep(150);
+                foreach (var _ in s.ReadAvailable(300)) { }
+                sent.Add((e, newPrefix));
+            }
+
+            int ok = 0, failed = 0;
+            if (sent.Count > 0)
+            {
+                var rb = ReadAllRoutings(s)
+                    .Where(x => x.Id > 0)
+                    .GroupBy(x => x.Id)
+                    .ToDictionary(g => g.Key, g => g.First());
+
+                foreach (var (e, want) in sent)
+                {
+                    if (rb.TryGetValue(e.Id, out var got) && NumberLockUtil.MatchesStatePlain(got.Prefix, stateByKey))
+                    {
+                        ok++;
+                        e.Prefix = got.Prefix;
+                    }
+                    else
+                    {
+                        failed++;
+                        _log?.Invoke($"    !! routing#{e.Id} ({e.Display}): readback chưa khớp ('{Short(got?.Prefix)}').");
+                    }
+                }
+            }
+
+            _log?.Invoke($"  Kết quả call-in: {sent.Count} routing cần đổi → OK {ok}, lỗi {failed} " +
+                         $"(tổng {routings.Count} routing).");
+            return (ok, failed);
+        }
+
+        /// <summary>Áp tập trạng thái lên danh sách thuần "84...,#84..." (không có head).</summary>
+        private static string ApplyStatePlain(string list, IReadOnlyDictionary<string, string> stateByKey)
+        {
+            var seen = new HashSet<string>();
+            var outList = new List<string>();
+            foreach (var raw in NumberLockUtil.SplitPlain(list))
+            {
+                var k = NumberLockUtil.TailKey(raw);
+                if (k.Length == 0 || !seen.Add(k)) continue;
+                if (!stateByKey.TryGetValue(k, out var want)) { outList.Add(raw); continue; }
+                outList.Add(NumberLockUtil.IsLocked(want) ? NumberLockUtil.Lock(raw) : NumberLockUtil.Unlock(raw));
+            }
+            return string.Join(",", outList);
+        }
+
+        private static string Short(string s)
+        {
+            if (s == null) return "?";
+            return s.Length > 90 ? s.Substring(0, 90) + "..." : s;
+        }
+
+        /// <summary>FilterGatewayMapping "lấy tất cả": agentAccount rỗng + customerAccount "*" + idSet rỗng.</summary>
+        private byte[] BuildBroadcastFilter()
+        {
+            var tpl = _pk[GetIdx];
+            if (!VosProto.TryDecompressFrom(tpl, VosProto.HeaderLen, out var obj))
+            {
+                _log?.Invoke("!! Không đọc được packet FilterGatewayMapping trong session.");
+                return tpl;
+            }
+
+            var patched = GatewayMappingCodec.BroadcastFilter(obj);
+            if (patched == null)
+            {
+                _log?.Invoke("!! Không dựng được filter broadcast — dùng nguyên bản template.");
+                return tpl;
+            }
+
+            var hdr = new byte[VosProto.HeaderLen];
+            Array.Copy(tpl, hdr, VosProto.HeaderLen);
+            return VosProto.BuildPacket(hdr, VosProto.CompressGzip(patched));
+        }
+    }
+
+    public class PrefixRead
+    {
+        public string Value;
+        public List<byte[]> Objects = new();
+    }
+
+    /// <summary>1 mapping = 1 "account customer" trên màn hình Mapping Caller Prefix của VOS.</summary>
+    public class MappingEntry
+    {
+        public long MappingId;                 // id InfoGatewayMapping (= gatewaymapping_id trong DB)
+        public long CustomerId;                // customer_id (consumer_id) — nối với e_customer.id
+        public string Name = "";               // tên mapping
+        public string Account = "";            // customerAccount (có thể bị mã hoá -> rỗng)
+        public string CustomerName = "";       // customerName
+        public string Prefix;                  // calloutCallerPrefixes hiện tại ("1;84...,#84...")
+        public GatewayMappingObject Obj;       // object gốc (để patch khi ghi)
+
+        public List<string> Nums => NumberLockUtil.Split(Prefix ?? "").Nums;
+        public string Display => !string.IsNullOrEmpty(Account) ? Account
+                               : !string.IsNullOrEmpty(Name) ? Name
+                               : $"mapping#{MappingId}";
+    }
+
+    /// <summary>1 gateway routing = 1 nhánh call-in (e_gatewayrouting), prefix là danh sách thuần "84...,#84...".</summary>
+    public class RoutingEntry
+    {
+        public long Id;                        // e_gatewayrouting.id
+        public long ClearingCustomerId;        // clearingcustomer_id -> e_customer.id
+        public string Account = "";            // clearingCustomerAccount
+        public string Name = "";
+        public string Prefix = "";             // danh sách số, KHÔNG có "x;" head
+        public JavaObject Obj;                 // object GET live (dựng SET)
+
+        public string Display => !string.IsNullOrEmpty(Account) ? Account
+                               : !string.IsNullOrEmpty(Name) ? Name
+                               : $"routing#{Id}";
+    }
+}

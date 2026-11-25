@@ -1,0 +1,14 @@
+C:\Users\PC\Documents\Default Project\Vos3000AgentCSharp\ProxyCapture\bin\Debug\net8.0\Vos3000Proxy.exe
+C:\Users\PC\Documents\Default Project\Vos3000AgentCSharp\ProxyCapture\bin\Debug\net8.0\Vos3000Proxy.deps.json
+C:\Users\PC\Documents\Default Project\Vos3000AgentCSharp\ProxyCapture\bin\Debug\net8.0\Vos3000Proxy.runtimeconfig.json
+C:\Users\PC\Documents\Default Project\Vos3000AgentCSharp\ProxyCapture\bin\Debug\net8.0\Vos3000Proxy.dll
+C:\Users\PC\Documents\Default Project\Vos3000AgentCSharp\ProxyCapture\bin\Debug\net8.0\Vos3000Proxy.pdb
+C:\Users\PC\Documents\Default Project\Vos3000AgentCSharp\ProxyCapture\obj\Debug\net8.0\ProxyCapture.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\PC\Documents\Default Project\Vos3000AgentCSharp\ProxyCapture\obj\Debug\net8.0\ProxyCapture.AssemblyInfoInputs.cache
+C:\Users\PC\Documents\Default Project\Vos3000AgentCSharp\ProxyCapture\obj\Debug\net8.0\ProxyCapture.AssemblyInfo.cs
+C:\Users\PC\Documents\Default Project\Vos3000AgentCSharp\ProxyCapture\obj\Debug\net8.0\ProxyCapture.csproj.CoreCompileInputs.cache
+C:\Users\PC\Documents\Default Project\Vos3000AgentCSharp\ProxyCapture\obj\Debug\net8.0\Vos3000Proxy.dll
+C:\Users\PC\Documents\Default Project\Vos3000AgentCSharp\ProxyCapture\obj\Debug\net8.0\refint\Vos3000Proxy.dll
+C:\Users\PC\Documents\Default Project\Vos3000AgentCSharp\ProxyCapture\obj\Debug\net8.0\Vos3000Proxy.pdb
+C:\Users\PC\Documents\Default Project\Vos3000AgentCSharp\ProxyCapture\obj\Debug\net8.0\ProxyCapture.genruntimeconfig.cache
+C:\Users\PC\Documents\Default Project\Vos3000AgentCSharp\ProxyCapture\obj\Debug\net8.0\ref\Vos3000Proxy.dll

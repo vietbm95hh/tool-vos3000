@@ -1,0 +1,5 @@
+C:\Users\PC\Documents\Default Project\Vos3000AgentCSharp\obj\Debug\net9.0-windows\Vos3000Agent.csproj.AssemblyReference.cache
+C:\Users\PC\Documents\Default Project\Vos3000AgentCSharp\obj\Debug\net9.0-windows\Vos3000Agent.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\PC\Documents\Default Project\Vos3000AgentCSharp\obj\Debug\net9.0-windows\Vos3000Agent.AssemblyInfoInputs.cache
+C:\Users\PC\Documents\Default Project\Vos3000AgentCSharp\obj\Debug\net9.0-windows\Vos3000Agent.AssemblyInfo.cs
+C:\Users\PC\Documents\Default Project\Vos3000AgentCSharp\obj\Debug\net9.0-windows\Vos3000Agent.csproj.CoreCompileInputs.cache

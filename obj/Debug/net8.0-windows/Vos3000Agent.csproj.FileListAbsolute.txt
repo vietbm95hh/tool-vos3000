@@ -1,0 +1,193 @@
+C:\Users\PC\Documents\Default Project\Vos3000AgentCSharp\obj\Debug\net8.0-windows\Vos3000Agent.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\PC\Documents\Default Project\Vos3000AgentCSharp\obj\Debug\net8.0-windows\Vos3000Agent.AssemblyInfoInputs.cache
+C:\Users\PC\Documents\Default Project\Vos3000AgentCSharp\obj\Debug\net8.0-windows\Vos3000Agent.AssemblyInfo.cs
+C:\Users\PC\Documents\Default Project\Vos3000AgentCSharp\obj\Debug\net8.0-windows\Vos3000Agent.csproj.CoreCompileInputs.cache
+C:\Users\PC\Documents\Default Project\Vos3000AgentCSharp\obj\Debug\net8.0-windows\Vos3000Agent.csproj.AssemblyReference.cache
+C:\Users\PC\Documents\Default Project\Vos3000AgentCSharp\bin\Debug\net8.0-windows\Vos3000Agent.exe
+C:\Users\PC\Documents\Default Project\Vos3000AgentCSharp\bin\Debug\net8.0-windows\Vos3000Agent.deps.json
+C:\Users\PC\Documents\Default Project\Vos3000AgentCSharp\bin\Debug\net8.0-windows\Vos3000Agent.runtimeconfig.json
+C:\Users\PC\Documents\Default Project\Vos3000AgentCSharp\bin\Debug\net8.0-windows\Vos3000Agent.dll
+C:\Users\PC\Documents\Default Project\Vos3000AgentCSharp\bin\Debug\net8.0-windows\Vos3000Agent.pdb
+C:\Users\PC\Documents\Default Project\Vos3000AgentCSharp\obj\Debug\net8.0-windows\Vos3000Agent.dll
+C:\Users\PC\Documents\Default Project\Vos3000AgentCSharp\obj\Debug\net8.0-windows\refint\Vos3000Agent.dll
+C:\Users\PC\Documents\Default Project\Vos3000AgentCSharp\obj\Debug\net8.0-windows\Vos3000Agent.pdb
+C:\Users\PC\Documents\Default Project\Vos3000AgentCSharp\obj\Debug\net8.0-windows\Vos3000Agent.genruntimeconfig.cache
+C:\Users\PC\Documents\Default Project\Vos3000AgentCSharp\obj\Debug\net8.0-windows\ref\Vos3000Agent.dll
+C:\Users\PC\Documents\Default Project\Vos3000AgentCSharp\bin\Debug\net8.0-windows\VosReplayer.deps.json
+C:\Users\PC\Documents\Default Project\Vos3000AgentCSharp\bin\Debug\net8.0-windows\VosReplayer.runtimeconfig.json
+C:\Users\PC\Documents\Default Project\Vos3000AgentCSharp\bin\Debug\net8.0-windows\VosReplayer.exe
+C:\Users\PC\Documents\Default Project\Vos3000AgentCSharp\bin\Debug\net8.0-windows\Data\vos_session_capture.bin
+C:\Users\PC\Documents\Default Project\Vos3000AgentCSharp\bin\Debug\net8.0-windows\VosReplayer.dll
+C:\Users\PC\Documents\Default Project\Vos3000AgentCSharp\bin\Debug\net8.0-windows\VosReplayer.pdb
+C:\Users\PC\Documents\Default Project\Vos3000AgentCSharp\obj\Debug\net8.0-windows\Vos3000A.9D22DC3B.Up2Date
+C:\Users\PC\Documents\Default Project\Vos3000AgentCSharp\bin\Debug\net8.0-windows\Microsoft.Extensions.Logging.Abstractions.dll
+C:\Users\PC\Documents\Default Project\Vos3000AgentCSharp\bin\Debug\net8.0-windows\MySqlConnector.dll
+C:\Users\PC\Documents\Default Project\Vos3000AgentCSharp\bin\Debug\net8.0-windows\Assets\logo.png
+C:\Users\PC\Documents\Default Project\Vos3000AgentCSharp\bin\Debug\net8.0-windows\Assets\app.ico
+C:\Users\PC\Documents\Default Project\Vos3000AgentCSharp\bin\Debug\net8.0-windows\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+C:\Users\PC\Documents\Default Project\Vos3000AgentCSharp\obj\Debug\net8.0-windows\Vos3000Agent.MainForm.resources
+C:\Users\PC\Documents\Default Project\Vos3000AgentCSharp\obj\Debug\net8.0-windows\Vos3000Agent.csproj.GenerateResource.cache
+C:\Users\PC\Documents\Default Project\Vos3000AgentCSharp\bin\checkbuild\VosReplayer.deps.json
+C:\Users\PC\Documents\Default Project\Vos3000AgentCSharp\bin\checkbuild\VosReplayer.runtimeconfig.json
+C:\Users\PC\Documents\Default Project\Vos3000AgentCSharp\bin\checkbuild\VosReplayer.exe
+C:\Users\PC\Documents\Default Project\Vos3000AgentCSharp\bin\checkbuild\Assets\logo.png
+C:\Users\PC\Documents\Default Project\Vos3000AgentCSharp\bin\checkbuild\Assets\app.ico
+C:\Users\PC\Documents\Default Project\Vos3000AgentCSharp\bin\checkbuild\Data\vos_session_capture.bin
+C:\Users\PC\Documents\Default Project\Vos3000AgentCSharp\bin\checkbuild\Vos3000Agent.exe
+C:\Users\PC\Documents\Default Project\Vos3000AgentCSharp\bin\checkbuild\Vos3000Agent.deps.json
+C:\Users\PC\Documents\Default Project\Vos3000AgentCSharp\bin\checkbuild\Vos3000Agent.runtimeconfig.json
+C:\Users\PC\Documents\Default Project\Vos3000AgentCSharp\bin\checkbuild\Vos3000Agent.dll
+C:\Users\PC\Documents\Default Project\Vos3000AgentCSharp\bin\checkbuild\Vos3000Agent.pdb
+C:\Users\PC\Documents\Default Project\Vos3000AgentCSharp\bin\checkbuild\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+C:\Users\PC\Documents\Default Project\Vos3000AgentCSharp\bin\checkbuild\Microsoft.Extensions.Logging.Abstractions.dll
+C:\Users\PC\Documents\Default Project\Vos3000AgentCSharp\bin\checkbuild\MySqlConnector.dll
+C:\Users\PC\Documents\Default Project\Vos3000AgentCSharp\bin\checkbuild\VosReplayer.dll
+C:\Users\PC\Documents\Default Project\Vos3000AgentCSharp\bin\checkbuild\VosReplayer.pdb
+C:\Users\PC\Documents\Default Project\Vos3000AgentCSharp\obj\verifybuild\VosReplayer.deps.json
+C:\Users\PC\Documents\Default Project\Vos3000AgentCSharp\obj\verifybuild\VosReplayer.runtimeconfig.json
+C:\Users\PC\Documents\Default Project\Vos3000AgentCSharp\obj\verifybuild\VosReplayer.exe
+C:\Users\PC\Documents\Default Project\Vos3000AgentCSharp\obj\verifybuild\Assets\logo.png
+C:\Users\PC\Documents\Default Project\Vos3000AgentCSharp\obj\verifybuild\Assets\app.ico
+C:\Users\PC\Documents\Default Project\Vos3000AgentCSharp\obj\verifybuild\Data\vos_session_capture.bin
+C:\Users\PC\Documents\Default Project\Vos3000AgentCSharp\obj\verifybuild\Vos3000Agent.exe
+C:\Users\PC\Documents\Default Project\Vos3000AgentCSharp\obj\verifybuild\Vos3000Agent.deps.json
+C:\Users\PC\Documents\Default Project\Vos3000AgentCSharp\obj\verifybuild\Vos3000Agent.runtimeconfig.json
+C:\Users\PC\Documents\Default Project\Vos3000AgentCSharp\obj\verifybuild\Vos3000Agent.dll
+C:\Users\PC\Documents\Default Project\Vos3000AgentCSharp\obj\verifybuild\Vos3000Agent.pdb
+C:\Users\PC\Documents\Default Project\Vos3000AgentCSharp\obj\verifybuild\Microsoft.Extensions.DependencyInjection.Abstractions.dll
+C:\Users\PC\Documents\Default Project\Vos3000AgentCSharp\obj\verifybuild\Microsoft.Extensions.Logging.Abstractions.dll
+C:\Users\PC\Documents\Default Project\Vos3000AgentCSharp\obj\verifybuild\MySqlConnector.dll
+C:\Users\PC\Documents\Default Project\Vos3000AgentCSharp\obj\verifybuild\VosReplayer.dll
+C:\Users\PC\Documents\Default Project\Vos3000AgentCSharp\obj\verifybuild\VosReplayer.pdb
+C:\Users\PC\AppData\Local\Temp\opencode\vbuild\Debug\net8.0-windows\VosReplayer.deps.json
+C:\Users\PC\AppData\Local\Temp\opencode\vbuild\Debug\net8.0-windows\VosReplayer.runtimeconfig.json
+C:\Users\PC\AppData\Local\Temp\opencode\vbuild\Debug\net8.0-windows\VosReplayer.exe
+C:\Users\PC\AppData\Local\Temp\opencode\vbuild\Debug\net8.0-windows\Assets\logo.png
+C:\Users\PC\AppData\Local\Temp\opencode\vbuild\Debug\net8.0-windows\Assets\app.ico
+C:\Users\PC\AppData\Local\Temp\opencode\vbuild\Debug\net8.0-windows\Data\vos_session_capture.bin
+C:\Users\PC\AppData\Local\Temp\opencode\vbuild\Debug\net8.0-windows\Vos3000Agent.exe
+C:\Users\PC\AppData\Local\Temp\opencode\vbuild\Debug\net8.0-windows\Vos3000Agent.deps.json
+C:\Users\PC\AppData\Local\Temp\opencode\vbuild\Debug\net8.0-windows\Vos3000Agent.runtimeconfig.json
+C:\Users\PC\AppData\Local\Temp\opencode\vbuild\Debug\net8.0-windows\Vos3000Agent.dll
+C:\Users\PC\AppData\Local\Temp\opencode\vbuild\Debug\net8.0-windows\Vos3000Agent.pdb
+C:\Users\PC\Documents\Default Project\Vos3000AgentCSharp\bin\Debug\net8.0-windows\Data\vos_routing_c2s.bin
+C:\Users\PC\AppData\Local\Temp\opencode\buildcheck\VosReplayer.deps.json
+C:\Users\PC\AppData\Local\Temp\opencode\buildcheck\VosReplayer.runtimeconfig.json
+C:\Users\PC\AppData\Local\Temp\opencode\buildcheck\VosReplayer.exe
+C:\Users\PC\AppData\Local\Temp\opencode\buildcheck\Assets\logo.png
+C:\Users\PC\AppData\Local\Temp\opencode\buildcheck\Assets\app.ico
+C:\Users\PC\AppData\Local\Temp\opencode\buildcheck\Data\vos_session_capture.bin
+C:\Users\PC\AppData\Local\Temp\opencode\buildcheck\Data\vos_routing_c2s.bin
+C:\Users\PC\AppData\Local\Temp\opencode\buildcheck\Vos3000Agent.exe
+C:\Users\PC\AppData\Local\Temp\opencode\buildcheck\Vos3000Agent.deps.json
+C:\Users\PC\AppData\Local\Temp\opencode\buildcheck\Vos3000Agent.runtimeconfig.json
+C:\Users\PC\AppData\Local\Temp\opencode\buildcheck\Vos3000Agent.dll
+C:\Users\PC\AppData\Local\Temp\opencode\buildcheck\Vos3000Agent.pdb
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild\VosReplayer.deps.json
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild\VosReplayer.runtimeconfig.json
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild\VosReplayer.exe
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild\Assets\logo.png
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild\Assets\app.ico
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild\Data\vos_session_capture.bin
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild\Data\vos_routing_c2s.bin
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild\Vos3000Agent.exe
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild\Vos3000Agent.deps.json
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild\Vos3000Agent.runtimeconfig.json
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild\Vos3000Agent.dll
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild\Vos3000Agent.pdb
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild2\VosReplayer.deps.json
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild2\VosReplayer.runtimeconfig.json
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild2\VosReplayer.exe
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild2\Assets\logo.png
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild2\Assets\app.ico
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild2\Data\vos_session_capture.bin
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild2\Data\vos_routing_c2s.bin
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild2\Vos3000Agent.exe
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild2\Vos3000Agent.deps.json
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild2\Vos3000Agent.runtimeconfig.json
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild2\Vos3000Agent.dll
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild2\Vos3000Agent.pdb
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild3\VosReplayer.deps.json
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild3\VosReplayer.runtimeconfig.json
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild3\VosReplayer.exe
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild3\Assets\logo.png
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild3\Assets\app.ico
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild3\Data\vos_session_capture.bin
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild3\Data\vos_routing_c2s.bin
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild3\Vos3000Agent.exe
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild3\Vos3000Agent.deps.json
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild3\Vos3000Agent.runtimeconfig.json
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild3\Vos3000Agent.dll
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild3\Vos3000Agent.pdb
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild4\VosReplayer.deps.json
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild4\VosReplayer.runtimeconfig.json
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild4\VosReplayer.exe
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild4\Assets\logo.png
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild4\Assets\app.ico
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild4\Data\vos_session_capture.bin
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild4\Data\vos_routing_c2s.bin
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild4\Vos3000Agent.exe
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild4\Vos3000Agent.deps.json
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild4\Vos3000Agent.runtimeconfig.json
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild4\Vos3000Agent.dll
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild4\Vos3000Agent.pdb
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild5\VosReplayer.deps.json
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild5\VosReplayer.runtimeconfig.json
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild5\VosReplayer.exe
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild5\Assets\logo.png
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild5\Assets\app.ico
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild5\Data\vos_session_capture.bin
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild5\Data\vos_routing_c2s.bin
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild5\Vos3000Agent.exe
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild5\Vos3000Agent.deps.json
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild5\Vos3000Agent.runtimeconfig.json
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild5\Vos3000Agent.dll
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild5\Vos3000Agent.pdb
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild6\VosReplayer.deps.json
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild6\VosReplayer.runtimeconfig.json
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild6\VosReplayer.exe
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild6\Assets\logo.png
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild6\Assets\app.ico
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild6\Data\vos_session_capture.bin
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild6\Data\vos_routing_c2s.bin
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild6\Vos3000Agent.exe
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild6\Vos3000Agent.deps.json
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild6\Vos3000Agent.runtimeconfig.json
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild6\Vos3000Agent.dll
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild6\Vos3000Agent.pdb
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild7\VosReplayer.deps.json
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild7\VosReplayer.runtimeconfig.json
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild7\VosReplayer.exe
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild7\Assets\logo.png
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild7\Assets\app.ico
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild7\Data\vos_session_capture.bin
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild7\Data\vos_routing_c2s.bin
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild7\Vos3000Agent.exe
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild7\Vos3000Agent.deps.json
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild7\Vos3000Agent.runtimeconfig.json
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild7\Vos3000Agent.dll
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild7\Vos3000Agent.pdb
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild8\VosReplayer.deps.json
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild8\VosReplayer.runtimeconfig.json
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild8\VosReplayer.exe
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild8\Assets\logo.png
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild8\Assets\app.ico
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild8\Data\vos_session_capture.bin
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild8\Data\vos_routing_c2s.bin
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild8\Vos3000Agent.exe
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild8\Vos3000Agent.deps.json
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild8\Vos3000Agent.runtimeconfig.json
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild8\Vos3000Agent.dll
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild8\Vos3000Agent.pdb
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild9\VosReplayer.deps.json
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild9\VosReplayer.runtimeconfig.json
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild9\VosReplayer.exe
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild9\Assets\logo.png
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild9\Assets\app.ico
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild9\Data\vos_session_capture.bin
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild9\Data\vos_routing_c2s.bin
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild9\Vos3000Agent.exe
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild9\Vos3000Agent.deps.json
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild9\Vos3000Agent.runtimeconfig.json
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild9\Vos3000Agent.dll
+C:\Users\PC\AppData\Local\Temp\opencode\vosbuild9\Vos3000Agent.pdb
